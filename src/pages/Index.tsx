@@ -1,4 +1,3 @@
-
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
@@ -19,8 +18,8 @@ const Index = () => {
         <Features />
         <HowItWorks />
         <Subjects />
-        <Pricing />
-        <Testimonials />
+        {/* <Pricing /> */}
+        {/* <Testimonials /> */}
         <FAQ />
         <CTASection />
       </main>

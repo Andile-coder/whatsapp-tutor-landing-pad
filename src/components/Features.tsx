@@ -1,11 +1,10 @@
-
-import { 
-  Clock, 
-  MessageSquare, 
-  CreditCard, 
-  GraduationCap, 
-  Zap, 
-  CheckCircle2 
+import {
+  Clock,
+  MessageSquare,
+  CreditCard,
+  GraduationCap,
+  Zap,
+  CheckCircle2,
 } from "lucide-react";
 
 const Features = () => {
@@ -13,32 +12,36 @@ const Features = () => {
     {
       icon: <Clock className="h-6 w-6 text-tutoring-blue" />,
       title: "24/7 Availability",
-      description: "Get help any time of day or night, weekends and holidays included."
+      description:
+        "Get help any time of day or night, weekends and holidays included.",
     },
     {
       icon: <MessageSquare className="h-6 w-6 text-whatsapp" />,
       title: "No App Switching",
-      description: "Use WhatsApp, the messaging app you're already comfortable with."
+      description:
+        "Use WhatsApp, the messaging app you're already comfortable with.",
     },
     {
       icon: <CreditCard className="h-6 w-6 text-tutoring-orange" />,
-      title: "Pay As You Go",
-      description: "Only pay for the help you need, with no subscription required."
+      title: "No Payments!",
+      description:
+        "Our AI is free to use. Your support helps us keep it that way.",
     },
     {
       icon: <GraduationCap className="h-6 w-6 text-tutoring-purple" />,
-      title: "Qualified Tutors",
-      description: "Learn from tutors with degrees from top universities and teaching experience."
+      title: "Credible Documents",
+      description:
+        "We offer verified documents and resources to enhance your learning.",
     },
     {
       icon: <Zap className="h-6 w-6 text-yellow-500" />,
-      title: "Instant Connections",
-      description: "Get matched with the right tutor in minutes, not days."
+      title: "Instant Downloads",
+      description: "Download files directly from WhatsApp without any hassle.",
     },
     {
       icon: <CheckCircle2 className="h-6 w-6 text-green-600" />,
       title: "Quality Guaranteed",
-      description: "Not satisfied? We'll connect you with another tutor or refund your session."
+      description: "Not satisfied? Drop us a message, and we'll make it right.",
     },
   ];
 
@@ -46,15 +49,18 @@ const Features = () => {
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">Why Choose WhatsApp Tutoring?</h2>
+          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
+            Why Choose Mosa Ai?
+          </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            We've transformed how tutoring works by bringing expert help directly to your favorite messaging app.
+            We've tranformed access to essential documents from surfing the
+            internet to just a simple human language.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div 
+            <div
               key={index}
               className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
             >

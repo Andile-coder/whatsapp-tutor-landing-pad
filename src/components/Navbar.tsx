@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
@@ -34,10 +33,10 @@ const Navbar = () => {
         <div className="flex items-center">
           <a href="#" className="flex items-center gap-2">
             <div className="h-10 w-10 rounded-full bg-whatsapp flex items-center justify-center">
-              <span className="text-white font-bold text-xl">WT</span>
+              <span className="text-white font-bold text-xl">MA</span>
             </div>
             <span className="font-heading font-bold text-xl hidden sm:inline-block">
-              WhatsApp<span className="text-whatsapp">Tutor</span>
+              Mosa<span className="text-whatsapp">AI</span>
             </span>
           </a>
         </div>

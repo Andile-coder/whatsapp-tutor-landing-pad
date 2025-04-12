@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
 
@@ -11,25 +10,27 @@ const CTASection = () => {
             Ready to Transform Your Learning Experience?
           </h2>
           <p className="text-lg mb-8 opacity-90">
-            Join thousands of students who are getting personalized help, improving their grades, and building confidence through WhatsApp tutoring.
+            Join thousands of students who are getting personalized help,
+            improving their grades, and building confidence through WhatsApp
+            tutoring.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-white text-tutoring-blue hover:bg-gray-100 font-medium"
             >
               <MessageSquare className="mr-2 h-5 w-5" /> Start Learning Now
             </Button>
-            <Button 
+            {/* <Button 
               size="lg" 
               variant="outline" 
               className="border-white text-white hover:bg-white/10"
             >
               View Pricing Plans
-            </Button>
+            </Button> */}
           </div>
           <p className="mt-6 text-sm opacity-80">
-            No credit card required to start. Pay only when you're ready.
+            No credit card required to start..
           </p>
         </div>
       </div>
