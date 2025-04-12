@@ -6,6 +6,7 @@ import {
   Linkedin, 
   MessageCircle 
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -91,7 +92,7 @@ const Footer = () => {
               © {new Date().getFullYear()} WhatsAppTutor. All rights reserved.
             </div>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-gray-300">Privacy Policy</a>
+              <Link to="/privacy-policy" className="hover:text-gray-300">Privacy Policy</Link>
               <a href="#" className="hover:text-gray-300">Terms of Service</a>
               <a href="#" className="hover:text-gray-300">Cookie Policy</a>
             </div>
