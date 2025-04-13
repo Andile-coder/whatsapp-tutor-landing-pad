@@ -44,31 +44,31 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <a
-            href="#how-it-works"
+            href="/#how-it-works"
             className="text-sm font-medium hover:text-whatsapp transition-colors"
           >
             How It Works
           </a>
           <a
-            href="#subjects"
+            href="/#subjects"
             className="text-sm font-medium hover:text-whatsapp transition-colors"
           >
             Subjects
           </a>
-          <a
-            href="#pricing"
+          {/* <a
+            href="/#pricing"
             className="text-sm font-medium hover:text-whatsapp transition-colors"
           >
             Pricing
-          </a>
-          <a
+          </a> */}
+          {/* <a
             href="#testimonials"
             className="text-sm font-medium hover:text-whatsapp transition-colors"
           >
             Testimonials
-          </a>
+          </a> */}
           <a
-            href="#faq"
+            href="/#faq"
             className="text-sm font-medium hover:text-whatsapp transition-colors"
           >
             FAQ

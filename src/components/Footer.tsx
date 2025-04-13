@@ -188,21 +188,15 @@ const Footer = () => {
               © {new Date().getFullYear()} Mosa. All rights reserved.
             </div>
             <div className="flex space-x-4">
-<<<<<<< HEAD
-              <a href="/policy" className="hover:text-gray-300">
+              <Link to="/privacy-policy" className="hover:text-gray-300">
                 Privacy Policy
-              </a>
+              </Link>
               <a href="#" className="hover:text-gray-300">
                 Terms of Service
               </a>
               <a href="#" className="hover:text-gray-300">
                 Cookie Policy
               </a>
-=======
-              <Link to="/privacy-policy" className="hover:text-gray-300">Privacy Policy</Link>
-              <a href="#" className="hover:text-gray-300">Terms of Service</a>
-              <a href="#" className="hover:text-gray-300">Cookie Policy</a>
->>>>>>> 4a255e23741091eb86220b2a4b8eaf5f556c803c
             </div>
           </div>
         </div>
