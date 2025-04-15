@@ -31,6 +31,16 @@ const HowItWorks = () => {
     },
   ];
 
+  const message = "Hi Mosa!";
+  const phoneNumber = "27725540603"; // Use your WhatsApp number with country code
+
+  const handleWhatsAppClick = () => {
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <section id="how-it-works" className="py-16">
       <div className="container mx-auto">
@@ -72,6 +82,7 @@ const HowItWorks = () => {
           <Button
             size="lg"
             className="bg-whatsapp hover:bg-whatsapp-dark text-white font-medium"
+            onClick={handleWhatsAppClick}
           >
             <MessageCircle className="mr-2 h-5 w-5" /> Start Learning Now
           </Button>

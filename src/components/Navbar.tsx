@@ -7,6 +7,16 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const message = "Hi Mosa!";
+  const phoneNumber = "27725540603"; // Use your WhatsApp number with country code
+
+  const handleWhatsAppClick = () => {
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -76,7 +86,10 @@ const Navbar = () => {
         </nav>
 
         <div className="hidden md:block">
-          <Button className="bg-whatsapp hover:bg-whatsapp-dark text-white">
+          <Button
+            className="bg-whatsapp hover:bg-whatsapp-dark text-white"
+            onClick={handleWhatsAppClick}
+          >
             Start Learning
           </Button>
         </div>
@@ -133,7 +146,10 @@ const Navbar = () => {
             >
               FAQ
             </a>
-            <Button className="bg-whatsapp hover:bg-whatsapp-dark text-white w-full">
+            <Button
+              className="bg-whatsapp hover:bg-whatsapp-dark text-white w-full"
+              onClick={handleWhatsAppClick}
+            >
               Start Learning
             </Button>
           </div>

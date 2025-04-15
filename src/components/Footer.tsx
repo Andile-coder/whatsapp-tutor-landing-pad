@@ -8,6 +8,15 @@ import {
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const message = "Hi Mosa!";
+  const phoneNumber = "27725540603"; // Use your WhatsApp number with country code
+
+  const handleWhatsAppClick = () => {
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto pt-16 pb-8">
@@ -175,7 +184,10 @@ const Footer = () => {
               <li>Email: maselaandile@gmail.com</li>
               <li>Hours: 24/7, 365 days a year</li>
             </ul>
-            <button className="mt-4 px-4 py-2 bg-whatsapp text-white rounded hover:bg-whatsapp-dark transition-colors text-sm">
+            <button
+              className="mt-4 px-4 py-2 bg-whatsapp text-white rounded hover:bg-whatsapp-dark transition-colors text-sm"
+              onClick={handleWhatsAppClick}
+            >
               Chat with Support
             </button>
           </div>

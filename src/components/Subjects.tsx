@@ -67,7 +67,15 @@ const Subjects = () => {
     //   topics: ["History", "Geography", "Sociology", "Political Science"],
     // },
   ];
+  const message = "Hi Mosa!";
+  const phoneNumber = "27725540603"; // Use your WhatsApp number with country code
 
+  const handleWhatsAppClick = () => {
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
   return (
     <section id="subjects" className="py-16 bg-gray-50">
       <div className="container mx-auto">
@@ -111,7 +119,10 @@ const Subjects = () => {
           <p className="text-gray-600 mb-4">
             Don't see your subject? No problem!
           </p>
-          <Button className="bg-tutoring-blue hover:bg-tutoring-darkblue text-white">
+          <Button
+            className="bg-tutoring-blue hover:bg-tutoring-darkblue text-white"
+            onClick={handleWhatsAppClick}
+          >
             Ask About Any Subject
           </Button>
         </div>
