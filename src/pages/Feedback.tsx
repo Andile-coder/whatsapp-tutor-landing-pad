@@ -1,4 +1,3 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -45,13 +44,37 @@ const Feedback = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "Feedback Submitted",
-      description: "Thank you for your feedback! We'll get back to you soon.",
-    });
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const formData = new FormData();
+    formData.append("entry.1084816482", values.name);
+    formData.append("entry.1333009324", values.email);
+    formData.append("entry.481594488", values.subject);
+    formData.append("entry.933906754", values.message);
+
+    try {
+      await fetch(
+        "https://docs.google.com/forms/d/e/1FAIpQLSeUSSjoBL3xylCSO5K1ooREqSjl1bhbkyunA53D_lQK3pQguQ/formResponse",
+        {
+          method: "POST",
+          mode: "no-cors", // suppresses CORS errors but disables reading response
+          body: formData,
+        }
+      );
+
+      toast({
+        title: "Feedback Submitted",
+        description: "Thank you for your feedback! We'll get back to you soon.",
+      });
+
+      form.reset();
+    } catch (error) {
+      toast({
+        title: "Submission failed",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+      console.error("Google Form submission error:", error);
+    }
   }
 
   return (
