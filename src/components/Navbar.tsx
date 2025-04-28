@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,14 +42,14 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
-          <a href="#" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <div className="h-10 w-10 rounded-full bg-whatsapp flex items-center justify-center">
               <span className="text-white font-bold text-xl">MA</span>
             </div>
             <span className="font-heading font-bold text-xl hidden sm:inline-block">
               Mosa<span className="text-whatsapp">AI</span>
             </span>
-          </a>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
@@ -65,24 +66,18 @@ const Navbar = () => {
           >
             Subjects
           </a>
-          {/* <a
-            href="/#pricing"
-            className="text-sm font-medium hover:text-whatsapp transition-colors"
-          >
-            Pricing
-          </a> */}
-          {/* <a
-            href="#testimonials"
-            className="text-sm font-medium hover:text-whatsapp transition-colors"
-          >
-            Testimonials
-          </a> */}
           <a
             href="/#faq"
             className="text-sm font-medium hover:text-whatsapp transition-colors"
           >
             FAQ
           </a>
+          <Link
+            to="/feedback"
+            className="text-sm font-medium hover:text-whatsapp transition-colors"
+          >
+            Feedback
+          </Link>
         </nav>
 
         <div className="hidden md:block">
@@ -126,26 +121,19 @@ const Navbar = () => {
               Subjects
             </a>
             <a
-              href="#pricing"
-              className="text-sm font-medium hover:text-whatsapp transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Pricing
-            </a>
-            <a
-              href="#testimonials"
-              className="text-sm font-medium hover:text-whatsapp transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Testimonials
-            </a>
-            <a
               href="#faq"
               className="text-sm font-medium hover:text-whatsapp transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               FAQ
             </a>
+            <Link
+              to="/feedback"
+              className="text-sm font-medium hover:text-whatsapp transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Feedback
+            </Link>
             <Button
               className="bg-whatsapp hover:bg-whatsapp-dark text-white w-full"
               onClick={handleWhatsAppClick}
