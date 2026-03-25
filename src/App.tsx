@@ -21,6 +21,8 @@ const AdminAccount = lazy(() => import("./pages/admin/AdminAccount"));
 const AdminSecurity = lazy(() => import("./pages/admin/AdminSecurity"));
 const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
 const AdminPostPaper = lazy(() => import("./pages/admin/AdminPostPaper"));
+const AdminUserCreate = lazy(() => import("./pages/admin/AdminUserCreate"));
+const AdminUserDetail = lazy(() => import("./pages/admin/AdminUserDetail"));
 
 const queryClient = new QueryClient();
 
@@ -78,6 +80,22 @@ const App = () => (
                   element={
                     <Suspense fallback={<RouteLoader />}>
                       <AdminUsers />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="users/new"
+                  element={
+                    <Suspense fallback={<RouteLoader />}>
+                      <AdminUserCreate />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="users/:waId"
+                  element={
+                    <Suspense fallback={<RouteLoader />}>
+                      <AdminUserDetail />
                     </Suspense>
                   }
                 />
