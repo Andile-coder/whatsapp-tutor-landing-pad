@@ -1,5 +1,14 @@
 import { FormEvent, useMemo, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
+import {
+  Alert,
+  Box,
+  Button,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   clearAdminAuthError,
@@ -101,187 +110,165 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(71,85,105,0.24),_transparent_30%),linear-gradient(180deg,#0f172a_0%,#111827_55%,#e5e7eb_55%,#f8fafc_100%)] px-4 py-16 text-slate-950">
-      <div className="mx-auto max-w-5xl">
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-[2rem] border border-slate-200/70 bg-white/92 p-8 shadow-[0_24px_80px_rgba(15,23,42,0.18)] backdrop-blur md:p-10">
-            <Link
-              to="/"
-              className="mb-10 inline-flex text-sm font-medium text-slate-500 transition-colors hover:text-slate-900"
+    <Box
+      sx={{
+        minHeight: "100vh",
+        bgcolor: "white",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        px: 2,
+        py: 6,
+      }}
+    >
+      <Paper
+        elevation={0}
+        sx={{
+          width: "100%",
+          maxWidth: 480,
+          p: { xs: 3, sm: 4 },
+          borderRadius: 4,
+          border: "1px solid rgba(148,163,184,0.18)",
+          boxShadow: "0 16px 40px rgba(15,23,42,0.06)",
+        }}
+      >
+        <Stack spacing={3}>
+          <Box>
+            <Typography
+              variant="overline"
+              sx={{ letterSpacing: "0.18em", color: "#64748b", fontWeight: 700 }}
             >
-              Back to site
-            </Link>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
-              Mosa AI Admin
-            </p>
-            <h1 className="mb-4 font-heading text-4xl font-bold tracking-tight text-slate-950">
-              Sign in with WhatsApp OTP
-            </h1>
-            <p className="mb-10 max-w-md text-sm leading-6 text-slate-600">
-              Use your approved admin number to receive a one-time code and
-              enter the admin workspace.
-            </p>
+              MOSA AI ADMIN
+            </Typography>
+            <Typography
+              variant="h4"
+              sx={{ mt: 0.5, fontWeight: 700, color: "#0f172a" }}
+            >
+              Sign in
+            </Typography>
+            <Typography sx={{ mt: 1, color: "#64748b" }}>
+              Sign in with your admin WhatsApp number.
+            </Typography>
+          </Box>
 
-            {!isOtpStep ? (
-              <form className="space-y-5" onSubmit={handleRequestOtp}>
-                <div>
-                  <label
-                    htmlFor="admin-phone"
-                    className="mb-2 block text-sm font-medium text-slate-700"
-                  >
-                    Admin phone number
-                  </label>
-                  <input
-                    id="admin-phone"
-                    type="tel"
-                    value={phoneNumber}
-                    onChange={(event) => {
-                      setPhoneNumber(event.target.value);
-                      if (error) {
-                        dispatch(clearAdminAuthError());
-                      }
-                    }}
-                    className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3.5 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-500 focus:bg-white"
-                    placeholder="27646848143"
-                  />
-                </div>
+          {!isOtpStep ? (
+            <Box component="form" onSubmit={handleRequestOtp}>
+              <Stack spacing={2.5}>
+                <TextField
+                  fullWidth
+                  label="Admin phone number"
+                  type="tel"
+                  value={phoneNumber}
+                  onChange={(event) => {
+                    setPhoneNumber(event.target.value);
+                    if (error) {
+                      dispatch(clearAdminAuthError());
+                    }
+                  }}
+                  placeholder="Enter phone number"
+                />
 
-                {error && (
-                  <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                    {error}
-                  </div>
-                )}
+                {error && <Alert severity="error">{error}</Alert>}
 
-                <button
+                <Button
                   type="submit"
+                  variant="contained"
                   disabled={!canSubmitPhone || otpRequestStatus === "loading"}
-                  className="w-full rounded-2xl bg-slate-950 px-4 py-3.5 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                  sx={{
+                    py: 1.4,
+                    borderRadius: 3,
+                    bgcolor: "#0f172a",
+                    boxShadow: "none",
+                    "&:hover": {
+                      bgcolor: "#1e293b",
+                      boxShadow: "none",
+                    },
+                  }}
                 >
-                  {otpRequestStatus === "loading"
-                    ? "Requesting OTP..."
-                    : "Send OTP"}
-                </button>
-              </form>
-            ) : (
-              <form className="space-y-5" onSubmit={handleVerifyOtp}>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-                  OTP sent to{" "}
-                  <span className="font-semibold text-slate-950">
-                    {otpPhoneNumber}
-                  </span>
+                  {otpRequestStatus === "loading" ? "Requesting OTP..." : "Send OTP"}
+                </Button>
+              </Stack>
+            </Box>
+          ) : (
+            <Box component="form" onSubmit={handleVerifyOtp}>
+              <Stack spacing={2.5}>
+                <Alert severity="info" sx={{ alignItems: "center" }}>
+                  OTP sent to {otpPhoneNumber}
                   {otpExpiryMinutes
                     ? ` and expires in about ${otpExpiryMinutes} minutes.`
                     : "."}
-                </div>
+                </Alert>
 
-                <div>
-                  <label
-                    htmlFor="admin-otp"
-                    className="mb-2 block text-sm font-medium text-slate-700"
-                  >
-                    One-time code
-                  </label>
-                  <input
-                    id="admin-otp"
-                    type="text"
-                    inputMode="numeric"
-                    value={otp}
-                    onChange={(event) => {
-                      setOtp(event.target.value);
-                      if (error) {
-                        dispatch(clearAdminAuthError());
-                      }
-                    }}
-                    className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3.5 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-500 focus:bg-white"
-                    placeholder="123456"
-                  />
-                </div>
+                <TextField
+                  fullWidth
+                  label="One-time code"
+                  inputMode="numeric"
+                  value={otp}
+                  onChange={(event) => {
+                    setOtp(event.target.value);
+                    if (error) {
+                      dispatch(clearAdminAuthError());
+                    }
+                  }}
+                  placeholder="Enter OTP"
+                />
 
-                {error && (
-                  <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                    {error}
-                  </div>
-                )}
+                {error && <Alert severity="error">{error}</Alert>}
 
-                <button
+                <Button
                   type="submit"
+                  variant="contained"
                   disabled={!canSubmitOtp || verifyStatus === "loading"}
-                  className="w-full rounded-2xl bg-slate-950 px-4 py-3.5 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                  sx={{
+                    py: 1.4,
+                    borderRadius: 3,
+                    bgcolor: "#0f172a",
+                    boxShadow: "none",
+                    "&:hover": {
+                      bgcolor: "#1e293b",
+                      boxShadow: "none",
+                    },
+                  }}
                 >
                   {verifyStatus === "loading" ? "Verifying..." : "Verify OTP"}
-                </button>
+                </Button>
 
-                <button
+                <Button
                   type="button"
+                  variant="outlined"
                   onClick={() => {
                     setOtp("");
                     dispatch(resetOtpFlow());
                   }}
-                  className="w-full rounded-2xl border border-slate-300 px-4 py-3.5 font-semibold text-slate-700 transition hover:bg-slate-50"
+                  sx={{
+                    py: 1.4,
+                    borderRadius: 3,
+                    borderColor: "rgba(148,163,184,0.35)",
+                    color: "#334155",
+                  }}
                 >
                   Use a different number
-                </button>
-              </form>
-            )}
+                </Button>
+              </Stack>
+            </Box>
+          )}
 
-            <div className="mt-8 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-800">
-              If your number is not recognized, the admin account still needs
-              to be provisioned first.
-            </div>
-          </div>
-
-          <div className="flex items-stretch">
-            <div className="w-full rounded-[2rem] border border-slate-800/60 bg-slate-900 p-8 text-white shadow-[0_24px_80px_rgba(15,23,42,0.35)] md:p-10">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">
-                Access
-              </p>
-              <h2 className="mb-6 font-heading text-3xl font-semibold tracking-tight">
-                Clean session-based admin access
-              </h2>
-              <div className="space-y-4 text-sm leading-7 text-slate-300">
-                <p>
-                  OTP delivery happens through WhatsApp and verification creates
-                  a backend-managed admin session with refresh support.
-                </p>
-                <p>
-                  The interface is intentionally minimal: identify the admin,
-                  verify the code, then hand off to the dashboard.
-                </p>
-              </div>
-
-              <div className="mt-10 grid gap-4">
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm font-medium text-white">
-                    Controlled entry
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-400">
-                    Only approved numbers can request a valid admin OTP.
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm font-medium text-white">
-                    Multi-device sessions
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-400">
-                    Sessions can be refreshed, revoked, or logged out across
-                    devices through the backend.
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm font-medium text-white">
-                    Ready for expansion
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-400">
-                    The Redux auth layer is in place for larger admin features
-                    without reworking route protection later.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          <Button
+            component={RouterLink}
+            to="/"
+            color="inherit"
+            sx={{
+              alignSelf: "flex-start",
+              px: 0,
+              minWidth: 0,
+              color: "#64748b",
+            }}
+          >
+            Back to site
+          </Button>
+        </Stack>
+      </Paper>
+    </Box>
   );
 };
 

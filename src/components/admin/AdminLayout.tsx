@@ -21,6 +21,7 @@ import GroupRoundedIcon from "@mui/icons-material/GroupRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
 import UploadFileRoundedIcon from "@mui/icons-material/UploadFileRounded";
+import InsightsRoundedIcon from "@mui/icons-material/InsightsRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
@@ -47,6 +48,11 @@ const navItems = [
     label: "Post paper",
     to: "/admin/papers/new",
     icon: <UploadFileRoundedIcon fontSize="small" />,
+  },
+  {
+    label: "Document activity",
+    to: "/admin/document-activity",
+    icon: <InsightsRoundedIcon fontSize="small" />,
   },
   {
     label: "Account",

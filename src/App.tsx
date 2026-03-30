@@ -23,6 +23,7 @@ const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
 const AdminPostPaper = lazy(() => import("./pages/admin/AdminPostPaper"));
 const AdminUserCreate = lazy(() => import("./pages/admin/AdminUserCreate"));
 const AdminUserDetail = lazy(() => import("./pages/admin/AdminUserDetail"));
+const AdminDocumentStats = lazy(() => import("./pages/admin/AdminDocumentStats"));
 
 const queryClient = new QueryClient();
 
@@ -104,6 +105,14 @@ const App = () => (
                   element={
                     <Suspense fallback={<RouteLoader />}>
                       <AdminPostPaper />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="document-activity"
+                  element={
+                    <Suspense fallback={<RouteLoader />}>
+                      <AdminDocumentStats />
                     </Suspense>
                   }
                 />
