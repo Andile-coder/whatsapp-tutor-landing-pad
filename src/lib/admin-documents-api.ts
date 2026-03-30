@@ -41,7 +41,7 @@ export type UpsertDocumentRequest = {
   publisher?: string;
   province?: string;
   term?: string;
-};
+} & Record<string, string>;
 
 export type UpsertDocumentResponse = {
   vector_id: string;
