@@ -120,7 +120,7 @@ const AdminLayout = () => {
         sx={{
           px: 1,
           py: 1.5,
-          borderRadius: 4,
+          borderRadius: 0,
           bgcolor: "rgba(255,255,255,0.04)",
         }}
       >
@@ -161,7 +161,7 @@ const AdminLayout = () => {
                 : location.pathname.startsWith(item.to)
             }
             sx={{
-              borderRadius: 3,
+              borderRadius: 0,
               color: "rgba(226,232,240,0.85)",
               "&.active, &.Mui-selected": {
                 bgcolor: "white",
@@ -187,7 +187,7 @@ const AdminLayout = () => {
         <Box
           sx={{
             p: 2.5,
-            borderRadius: 4,
+            borderRadius: 0,
             bgcolor: "rgba(255,255,255,0.05)",
             border: "1px solid rgba(255,255,255,0.08)",
           }}
@@ -211,7 +211,7 @@ const AdminLayout = () => {
             variant="outlined"
             onClick={handleLogoutAll}
             sx={{
-              borderRadius: 3,
+              borderRadius: 0,
               borderColor: "rgba(255,255,255,0.12)",
               color: "white",
               py: 1.4,
@@ -229,7 +229,7 @@ const AdminLayout = () => {
             onClick={handleLogout}
             disabled={logoutStatus === "loading"}
             sx={{
-              borderRadius: 3,
+              borderRadius: 0,
               py: 1.4,
               bgcolor: "white",
               color: "#0f172a",
@@ -300,7 +300,7 @@ const AdminLayout = () => {
             variant="outlined"
             endIcon={<LaunchRoundedIcon />}
             sx={{
-              borderRadius: 999,
+              borderRadius: 0,
               borderColor: "rgba(148,163,184,0.35)",
               color: "#334155",
               px: 2,

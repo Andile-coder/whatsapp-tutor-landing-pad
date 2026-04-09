@@ -56,7 +56,7 @@ const LearnerUserForm = ({
         elevation={0}
         sx={{
           p: { xs: 3, md: 4 },
-          borderRadius: 6,
+          borderRadius: 0,
           border: "1px solid rgba(148,163,184,0.18)",
           backgroundColor: "white",
         }}
@@ -229,7 +229,7 @@ const LearnerUserForm = ({
         elevation={0}
         sx={{
           p: { xs: 3, md: 4 },
-          borderRadius: 6,
+          borderRadius: 0,
           border: "1px solid rgba(148,163,184,0.18)",
           backgroundColor: "white",
         }}
@@ -293,7 +293,7 @@ const LearnerUserForm = ({
             mt: 3,
             py: 1.4,
             px: 3,
-            borderRadius: 3,
+            borderRadius: 0,
             bgcolor: "#0f172a",
             boxShadow: "none",
             "&:hover": {

@@ -5,7 +5,7 @@ const AdminSecurity = () => {
 
   return (
     <div className="grid gap-4">
-      <section className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+      <section className="border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
           Security
         </p>
@@ -19,7 +19,7 @@ const AdminSecurity = () => {
       </section>
 
       <section className="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+        <div className="border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
           <h3 className="mb-4 font-heading text-xl font-semibold text-slate-950">
             Assigned roles
           </h3>
@@ -28,7 +28,7 @@ const AdminSecurity = () => {
               {adminUser.roles.map((role) => (
                 <div
                   key={`${role.code}-${role.assigned_at}`}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  className="border border-slate-200 bg-slate-50 px-4 py-3"
                 >
                   <p className="font-medium text-slate-950">{role.name}</p>
                   <p className="text-sm text-slate-600">Code: {role.code}</p>
@@ -45,7 +45,7 @@ const AdminSecurity = () => {
           )}
         </div>
 
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+        <div className="border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
           <h3 className="mb-4 font-heading text-xl font-semibold text-slate-950">
             Session policy
           </h3>

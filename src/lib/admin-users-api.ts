@@ -23,6 +23,25 @@ type ListUsersResponse = {
   requested_by?: string;
 };
 
+export type UserStatsCounts = {
+  total_users: number;
+  active_users: number;
+  inactive_users: number;
+  recently_active_users_7d: number;
+};
+
+type UserStatsDefinitions = {
+  active_users?: string;
+  inactive_users?: string;
+  recently_active_users_7d?: string;
+};
+
+type GetUserStatsResponse = {
+  counts: UserStatsCounts;
+  definitions?: UserStatsDefinitions;
+  requested_by?: string;
+};
+
 type GetUserResponse = {
   user: LearnerUser;
   requested_by?: string;
@@ -90,6 +109,9 @@ const request = async <T>(
 export const adminUsersApi = {
   listUsers: async (accessToken: string) =>
     request<ListUsersResponse>("/v4/admin/users", accessToken),
+
+  getUserStats: async (accessToken: string) =>
+    request<GetUserStatsResponse>("/v4/admin/users/stats", accessToken),
 
   getUser: async (accessToken: string, waId: string) =>
     request<GetUserResponse>(

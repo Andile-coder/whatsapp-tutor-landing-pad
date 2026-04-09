@@ -432,7 +432,7 @@ const AdminPostPaper = () => {
         elevation={0}
         sx={{
           p: { xs: 3, md: 4 },
-          borderRadius: 6,
+          borderRadius: 0,
           border: "1px solid rgba(148,163,184,0.18)",
           backgroundColor: "white",
         }}
@@ -463,7 +463,7 @@ const AdminPostPaper = () => {
                 elevation={0}
                 sx={{
                   p: { xs: 3, md: 4 },
-                  borderRadius: 6,
+                  borderRadius: 0,
                   border: "1px solid rgba(148,163,184,0.18)",
                   backgroundColor: "white",
                 }}
@@ -620,7 +620,7 @@ const AdminPostPaper = () => {
                 elevation={0}
                 sx={{
                   p: { xs: 3, md: 4 },
-                  borderRadius: 6,
+                  borderRadius: 0,
                   border: "1px solid rgba(148,163,184,0.18)",
                   backgroundColor: "white",
                 }}
@@ -647,7 +647,7 @@ const AdminPostPaper = () => {
                     onClick={handleAddCustomField}
                     startIcon={<AddRoundedIcon />}
                     variant="outlined"
-                    sx={{ borderRadius: 3 }}
+                    sx={{ borderRadius: 0 }}
                   >
                     Add field
                   </Button>
@@ -683,7 +683,7 @@ const AdminPostPaper = () => {
                               minWidth: 0,
                               width: "100%",
                               height: 56,
-                              borderRadius: 3,
+                              borderRadius: 0,
                               border: "1px solid rgba(148,163,184,0.24)",
                             }}
                           >
@@ -704,7 +704,7 @@ const AdminPostPaper = () => {
                 elevation={0}
                 sx={{
                   p: { xs: 3, md: 4 },
-                  borderRadius: 6,
+                  borderRadius: 0,
                   border: "1px solid rgba(148,163,184,0.18)",
                   backgroundColor: "white",
                 }}
@@ -773,7 +773,7 @@ const AdminPostPaper = () => {
                 elevation={0}
                 sx={{
                   p: { xs: 3, md: 4 },
-                  borderRadius: 6,
+                  borderRadius: 0,
                   border: "1px solid rgba(148,163,184,0.18)",
                   backgroundColor: "white",
                 }}
@@ -800,7 +800,7 @@ const AdminPostPaper = () => {
                     border: dragActive
                       ? "2px solid #0f172a"
                       : "2px dashed rgba(148,163,184,0.45)",
-                    borderRadius: 5,
+                    borderRadius: 0,
                     bgcolor: dragActive ? "#f8fafc" : "#fbfdff",
                     p: 4,
                     textAlign: "center",
@@ -836,7 +836,7 @@ const AdminPostPaper = () => {
                     sx={{
                       mt: 2.5,
                       p: 2,
-                      borderRadius: 4,
+                      borderRadius: 0,
                       bgcolor: "#f8fafc",
                       border: "1px solid rgba(148,163,184,0.18)",
                     }}
@@ -861,7 +861,7 @@ const AdminPostPaper = () => {
                 elevation={0}
                 sx={{
                   p: { xs: 3, md: 4 },
-                  borderRadius: 6,
+                  borderRadius: 0,
                   border: "1px solid rgba(148,163,184,0.18)",
                   backgroundColor: "white",
                 }}
@@ -906,7 +906,7 @@ const AdminPostPaper = () => {
                   sx={{
                     mt: 3,
                     py: 1.5,
-                    borderRadius: 3,
+                    borderRadius: 0,
                     bgcolor: "#0f172a",
                     boxShadow: "none",
                     "&:hover": {
@@ -940,14 +940,14 @@ const AdminPostPaper = () => {
         <Alert
           severity={submitState === "success" ? "success" : "info"}
           icon={submitState === "success" ? <CheckCircleRoundedIcon /> : undefined}
-          sx={{ borderRadius: 4 }}
+          sx={{ borderRadius: 0 }}
         >
           {feedback || authError}
         </Alert>
       )}
 
       {uploadedPath && submitState === "success" && (
-        <Alert severity="success" sx={{ borderRadius: 4 }}>
+        <Alert severity="success" sx={{ borderRadius: 0 }}>
           Uploaded file path: {uploadedPath}
         </Alert>
       )}

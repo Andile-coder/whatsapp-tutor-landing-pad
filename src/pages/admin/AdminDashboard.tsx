@@ -1,125 +1,258 @@
+import { useEffect, useMemo, useState } from "react";
+import {
+  Alert,
+  Chip,
+  Grid,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { UserStatsCounts, adminUsersApi } from "@/lib/admin-users-api";
+import { runAdminAuthedRequest } from "@/lib/run-admin-authed-request";
+import { store } from "@/store";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+
+const EMPTY_COUNTS: UserStatsCounts = {
+  total_users: 0,
+  active_users: 0,
+  inactive_users: 0,
+  recently_active_users_7d: 0,
+};
 
 const AdminDashboard = () => {
   const dispatch = useAppDispatch();
-  const { adminUser, tokens, error } = useAppSelector((state) => state.adminAuth);
+  const {
+    adminUser,
+    tokens,
+    error: authError,
+  } = useAppSelector((state) => state.adminAuth);
+  const [counts, setCounts] = useState<UserStatsCounts>(EMPTY_COUNTS);
+  const [statsError, setStatsError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadStats = async () => {
+      try {
+        setStatsError(null);
+
+        const response = await runAdminAuthedRequest({
+          dispatch,
+          getState: store.getState,
+          requestFn: (accessToken) => adminUsersApi.getUserStats(accessToken),
+        });
+
+        if (isMounted) {
+          setCounts(response.counts || EMPTY_COUNTS);
+        }
+      } catch (loadError) {
+        if (isMounted) {
+          setStatsError(
+            loadError instanceof Error
+              ? loadError.message
+              : "Failed to load user statistics."
+          );
+        }
+      }
+    };
+
+    loadStats();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [dispatch]);
+
+  const statCards = useMemo(
+    () => [
+      {
+        label: "Total users",
+        value: counts.total_users,
+        helper: "All learner records",
+      },
+      {
+        label: "Active users",
+        value: counts.active_users,
+        helper: "Users with is_active = true",
+      },
+      {
+        label: "Inactive users",
+        value: counts.inactive_users,
+        helper: "Users with is_active = false",
+      },
+      {
+        label: "Recently active",
+        value: counts.recently_active_users_7d,
+        helper: "Seen in the last 7 days",
+      },
+    ],
+    [counts]
+  );
 
   return (
-    <div className="grid gap-4">
-      {error && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </div>
+    <Stack spacing={3}>
+      {(authError || statsError) && (
+        <Alert severity="error">{authError || statsError}</Alert>
       )}
 
-      <section className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+      <Paper
+        elevation={0}
+        sx={{
+          p: { xs: 3, md: 4 },
+          borderRadius: 0,
+          border: "1px solid rgba(148,163,184,0.18)",
+          backgroundColor: "white",
+        }}
+      >
+        <Typography
+          variant="overline"
+          sx={{ letterSpacing: "0.18em", color: "#64748b", fontWeight: 700 }}
+        >
           Overview
-        </p>
-        <h2 className="font-heading text-3xl font-semibold tracking-tight text-slate-950">
+        </Typography>
+        <Typography
+          variant="h4"
+          sx={{ mt: 0.5, fontWeight: 700, color: "#0f172a" }}
+        >
           Admin dashboard
-        </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-          Auth is now backed by the admin OTP API. This session can be
-          refreshed and revoked from the backend as the admin area expands.
-        </p>
-      </section>
+        </Typography>
+        <Typography sx={{ mt: 1.5, maxWidth: 780, color: "#475569" }}>
+          High-level learner activity and admin session details live here so
+          the team can see platform health quickly before drilling into users,
+          documents, or paper uploads.
+        </Typography>
+      </Paper>
 
-      <section className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
-          <h3 className="mb-4 font-heading text-xl font-semibold text-slate-950">
-            Admin profile
-          </h3>
-          <div className="space-y-3 text-sm text-slate-600">
-            <p>
-              Name:{" "}
-              <span className="font-medium text-slate-950">
-                {[adminUser?.first_name, adminUser?.last_name]
-                  .filter(Boolean)
-                  .join(" ") || "Not set"}
-              </span>
-            </p>
-            <p>
-              Phone:{" "}
-              <span className="font-medium text-slate-950">
-                {adminUser?.phone_number || "Unknown"}
-              </span>
-            </p>
-            <p>
-              Email:{" "}
-              <span className="font-medium text-slate-950">
-                {adminUser?.email || "Not set"}
-              </span>
-            </p>
-            <p>
-              Session ID:{" "}
-              <span className="font-mono text-slate-950">
-                {tokens?.sessionId || "Unknown"}
-              </span>
-            </p>
-          </div>
-        </div>
+      <Grid container spacing={2}>
+        {statCards.map((card) => (
+          <Grid key={card.label} size={{ xs: 12, sm: 6, xl: 3 }}>
+            <Paper
+              elevation={0}
+              sx={{
+                p: 3,
+                borderRadius: 0,
+                border: "1px solid rgba(148,163,184,0.18)",
+                backgroundColor: "white",
+                height: "100%",
+              }}
+            >
+              <Typography
+                variant="overline"
+                sx={{
+                  letterSpacing: "0.12em",
+                  color: "#64748b",
+                  fontWeight: 700,
+                }}
+              >
+                {card.label}
+              </Typography>
+              <Typography
+                variant="h4"
+                sx={{ mt: 1, fontWeight: 700, color: "#0f172a" }}
+              >
+                {card.value.toLocaleString()}
+              </Typography>
+              <Typography sx={{ mt: 1, color: "#64748b" }}>
+                {card.helper}
+              </Typography>
+            </Paper>
+          </Grid>
+        ))}
+      </Grid>
 
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
-          <h3 className="mb-4 font-heading text-xl font-semibold text-slate-950">
-            Assigned roles
-          </h3>
-          {adminUser?.roles?.length ? (
-            <div className="space-y-3">
-              {adminUser.roles.map((role) => (
-                <div
-                  key={`${role.code}-${role.assigned_at}`}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+      <Grid container spacing={3}>
+        <Grid size={{ xs: 12, lg: 6 }}>
+          <Paper
+            elevation={0}
+            sx={{
+              p: 3,
+              borderRadius: 0,
+              border: "1px solid rgba(148,163,184,0.18)",
+              backgroundColor: "white",
+              height: "100%",
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 700, color: "#0f172a", mb: 2.5 }}
+            >
+              Admin profile
+            </Typography>
+            <Stack spacing={1.5}>
+              <Typography sx={{ color: "#475569" }}>
+                Name:{" "}
+                <Typography component="span" sx={{ fontWeight: 600, color: "#0f172a" }}>
+                  {[adminUser?.first_name, adminUser?.last_name]
+                    .filter(Boolean)
+                    .join(" ") || "Not set"}
+                </Typography>
+              </Typography>
+              <Typography sx={{ color: "#475569" }}>
+                Phone:{" "}
+                <Typography component="span" sx={{ fontWeight: 600, color: "#0f172a" }}>
+                  {adminUser?.phone_number || "Unknown"}
+                </Typography>
+              </Typography>
+              <Typography sx={{ color: "#475569" }}>
+                Email:{" "}
+                <Typography component="span" sx={{ fontWeight: 600, color: "#0f172a" }}>
+                  {adminUser?.email || "Not set"}
+                </Typography>
+              </Typography>
+              <Typography sx={{ color: "#475569" }}>
+                Session ID:{" "}
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: 600, color: "#0f172a", fontFamily: "monospace" }}
                 >
-                  <p className="font-medium text-slate-950">{role.name}</p>
-                  <p className="text-sm text-slate-600">Code: {role.code}</p>
-                  <p className="text-sm text-slate-500">
-                    Assigned by {role.assigned_by} on {role.assigned_at}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm leading-6 text-slate-600">
-              No roles are assigned yet. The `/me` endpoint is wired and will
-              render joined admin roles when they exist.
-            </p>
-          )}
-        </div>
-      </section>
+                  {tokens?.sessionId || "Unknown"}
+                </Typography>
+              </Typography>
+            </Stack>
+          </Paper>
+        </Grid>
 
-      <section className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
-          <h3 className="mb-2 font-heading text-xl font-semibold text-slate-950">
-            Redux auth store
-          </h3>
-          <p className="text-sm leading-6 text-slate-600">
-            Admin auth state lives in Redux Toolkit so future admin features can
-            layer onto one predictable session model.
-          </p>
-        </div>
-
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
-          <h3 className="mb-2 font-heading text-xl font-semibold text-slate-950">
-            Session model
-          </h3>
-          <p className="text-sm leading-6 text-slate-600">
-            The app restores sessions on reload and automatically refreshes
-            access tokens around protected requests.
-          </p>
-        </div>
-
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
-          <h3 className="mb-2 font-heading text-xl font-semibold text-slate-950">
-            Route system
-          </h3>
-          <p className="text-sm leading-6 text-slate-600">
-            The admin shell now uses nested child routes, so additional sections
-            can be added without rebuilding the page frame.
-          </p>
-        </div>
-      </section>
-    </div>
+        <Grid size={{ xs: 12, lg: 6 }}>
+          <Paper
+            elevation={0}
+            sx={{
+              p: 3,
+              borderRadius: 0,
+              border: "1px solid rgba(148,163,184,0.18)",
+              backgroundColor: "white",
+              height: "100%",
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 700, color: "#0f172a", mb: 2.5 }}
+            >
+              Assigned roles
+            </Typography>
+            {adminUser?.roles?.length ? (
+              <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+                {adminUser.roles.map((role) => (
+                  <Chip
+                    key={`${role.code}-${role.assigned_at}`}
+                    label={`${role.name} (${role.code})`}
+                    sx={{
+                      borderRadius: 0,
+                      bgcolor: "#e2e8f0",
+                      color: "#0f172a",
+                      fontWeight: 600,
+                    }}
+                  />
+                ))}
+              </Stack>
+            ) : (
+              <Typography sx={{ color: "#64748b" }}>
+                No roles are assigned yet.
+              </Typography>
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
+    </Stack>
   );
 };
 

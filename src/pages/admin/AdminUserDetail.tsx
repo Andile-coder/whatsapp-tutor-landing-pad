@@ -143,7 +143,7 @@ const AdminUserDetail = () => {
         elevation={0}
         sx={{
           p: { xs: 3, md: 4 },
-          borderRadius: 6,
+          borderRadius: 0,
           border: "1px solid rgba(148,163,184,0.18)",
           backgroundColor: "white",
         }}
@@ -171,7 +171,7 @@ const AdminUserDetail = () => {
           elevation={0}
           sx={{
             p: 6,
-            borderRadius: 6,
+            borderRadius: 0,
             border: "1px solid rgba(148,163,184,0.18)",
             backgroundColor: "white",
           }}

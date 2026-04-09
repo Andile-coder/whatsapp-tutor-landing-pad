@@ -127,7 +127,7 @@ const AdminLogin = () => {
           width: "100%",
           maxWidth: 480,
           p: { xs: 3, sm: 4 },
-          borderRadius: 4,
+          borderRadius: 0,
           border: "1px solid rgba(148,163,184,0.18)",
           boxShadow: "0 16px 40px rgba(15,23,42,0.06)",
         }}
@@ -176,7 +176,7 @@ const AdminLogin = () => {
                   disabled={!canSubmitPhone || otpRequestStatus === "loading"}
                   sx={{
                     py: 1.4,
-                    borderRadius: 3,
+                    borderRadius: 0,
                     bgcolor: "#0f172a",
                     boxShadow: "none",
                     "&:hover": {
@@ -221,7 +221,7 @@ const AdminLogin = () => {
                   disabled={!canSubmitOtp || verifyStatus === "loading"}
                   sx={{
                     py: 1.4,
-                    borderRadius: 3,
+                    borderRadius: 0,
                     bgcolor: "#0f172a",
                     boxShadow: "none",
                     "&:hover": {
@@ -242,7 +242,7 @@ const AdminLogin = () => {
                   }}
                   sx={{
                     py: 1.4,
-                    borderRadius: 3,
+                    borderRadius: 0,
                     borderColor: "rgba(148,163,184,0.35)",
                     color: "#334155",
                   }}

@@ -5,7 +5,7 @@ const AdminAccount = () => {
 
   return (
     <div className="grid gap-4">
-      <section className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+      <section className="border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
           Account
         </p>
@@ -19,7 +19,7 @@ const AdminAccount = () => {
       </section>
 
       <section className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+        <div className="border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
           <h3 className="mb-4 font-heading text-xl font-semibold text-slate-950">
             Identity
           </h3>
@@ -47,7 +47,7 @@ const AdminAccount = () => {
           </div>
         </div>
 
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+        <div className="border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
           <h3 className="mb-4 font-heading text-xl font-semibold text-slate-950">
             Session metadata
           </h3>
