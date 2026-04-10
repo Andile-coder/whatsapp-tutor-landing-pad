@@ -19,6 +19,10 @@ type PresignUploadRequest = {
   content_type: string;
 };
 
+type AnalyzeDocumentRequest = {
+  path: string;
+};
+
 export type PresignUploadResponse = {
   bucket: string;
   key: string;
@@ -41,11 +45,33 @@ export type UpsertDocumentRequest = {
   publisher?: string;
   province?: string;
   term?: string;
-} & Record<string, string>;
+} & Record<string, string | string[]>;
 
 export type UpsertDocumentResponse = {
   vector_id: string;
   message: string;
+};
+
+export type AnalyzeDocumentResponse = {
+  document: {
+    path: string;
+    filename: string;
+    title?: string | null;
+    summary?: string | null;
+    document_type?: string | null;
+    subject?: string | null;
+    grade?: string | null;
+    year?: string | null;
+    language?: string | null;
+    paper?: string | null;
+    term?: string | null;
+    province?: string | null;
+    publisher?: string | null;
+    exam_type?: string | null;
+    keywords?: string[];
+    warnings?: string[];
+  };
+  requested_by?: string;
 };
 
 const extractApiError = (payload: ApiFailure | null, fallback: string) =>
@@ -104,6 +130,18 @@ export const adminDocumentsApi = {
       throw new Error("Failed to upload file to storage");
     }
   },
+
+  analyzeDocument: async (
+    accessToken: string,
+    body: AnalyzeDocumentRequest
+  ) =>
+    request<AnalyzeDocumentResponse>("/v4/admin/documents/analyze", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(body),
+    }),
 
   upsertDocument: async (body: UpsertDocumentRequest) =>
     request<UpsertDocumentResponse>("/upsert", {

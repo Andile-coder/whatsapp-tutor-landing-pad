@@ -1,10 +1,8 @@
 import {
   ChangeEvent,
-  DragEvent,
   FormEvent,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import { PDFDocument } from "pdf-lib";
@@ -20,31 +18,32 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
-import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+import PdfFileDropzone from "@/components/admin/PdfFileDropzone";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { runAdminAuthedRequest } from "@/lib/run-admin-authed-request";
 import {
   adminDocumentsApi,
   UpsertDocumentRequest,
 } from "@/lib/admin-documents-api";
+import {
+  BaseDocumentFormState,
+  buildDefaultDescription,
+  buildPaperFolderPath,
+  documentTypeOptions,
+  gradeOptions,
+  languageOptions,
+  paperOptions,
+  provinceOptions,
+  publisherOptions,
+  sanitizeFileName,
+  termOptions,
+} from "@/lib/admin-paper-form";
 import { store } from "@/store";
 
-type FormState = {
-  document_type: string;
-  description: string;
-  year: string;
-  grade: string;
-  subject: string;
-  paper: string;
-  language: string;
-  publisher: string;
-  province: string;
-  term: string;
-};
+type FormState = BaseDocumentFormState;
 
 type InsertPageConfig = {
   id: string;
@@ -76,64 +75,6 @@ const initialFormState: FormState = {
   province: "National",
   term: "November",
 };
-
-const documentTypeOptions = [
-  { value: "question_paper", label: "Question paper" },
-  { value: "memorandum", label: "Memorandum" },
-  { value: "study_guide", label: "Study guide" },
-  { value: "prospectus", label: "Prospectus" },
-];
-
-const gradeOptions = ["8", "9", "10", "11", "12"];
-const languageOptions = ["English", "Afrikaans"];
-const paperOptions = ["P1", "P2", "P3"];
-const publisherOptions = ["DBE", "IEB", "School", "Other"];
-const provinceOptions = [
-  "National",
-  "Eastern Cape",
-  "Free State",
-  "Gauteng",
-  "KwaZulu-Natal",
-  "Limpopo",
-  "Mpumalanga",
-  "North West",
-  "Northern Cape",
-  "Western Cape",
-];
-const termOptions = [
-  "February/March",
-  "June",
-  "September",
-  "November",
-  "Trial",
-  "Term 1",
-  "Term 2",
-  "Term 3",
-  "Term 4",
-];
-
-const sanitizeFileName = (filename: string) =>
-  filename.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9._-]/g, "");
-
-const buildFolderPath = (form: FormState) => {
-  const year = form.year.trim() || "unknown-year";
-  const grade = form.grade.trim() || "unknown-grade";
-
-  return `past-exam-papers/${year}/${grade}`;
-};
-
-const buildDefaultDescription = (form: FormState) =>
-  [
-    `Grade ${form.grade}`.trim(),
-    form.subject.trim(),
-    form.paper.trim(),
-    form.term.trim(),
-    form.year.trim(),
-    form.language.trim(),
-    form.document_type === "memorandum" ? "memorandum" : "question paper",
-  ]
-    .filter(Boolean)
-    .join(" ");
 
 const createCustomField = (): CustomField => ({
   id: crypto.randomUUID(),
@@ -185,7 +126,6 @@ const AdminPostPaper = () => {
   const authError = useAppSelector((state) => state.adminAuth.error);
   const [form, setForm] = useState<FormState>(initialFormState);
   const [file, setFile] = useState<File | null>(null);
-  const [dragActive, setDragActive] = useState(false);
   const [submitState, setSubmitState] = useState<
     "idle" | "uploading" | "submitting" | "success" | "error"
   >("idle");
@@ -197,7 +137,6 @@ const AdminPostPaper = () => {
   const [customFields, setCustomFields] = useState<CustomField[]>([]);
   const [insertPagesLoading, setInsertPagesLoading] = useState(true);
   const [insertPagesError, setInsertPagesError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -282,12 +221,6 @@ const AdminPostPaper = () => {
     setSubmitState("idle");
   };
 
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setDragActive(false);
-    handleFileSelection(event.dataTransfer.files?.[0] || null);
-  };
-
   const handleCustomFieldChange =
     (fieldId: string, fieldName: "key" | "value") =>
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -349,7 +282,7 @@ const AdminPostPaper = () => {
       }
 
       const sanitizedFilename = sanitizeFileName(uploadFile.name);
-      const folder = buildFolderPath(form);
+      const folder = buildPaperFolderPath(form);
 
       const presignResult = await runAdminAuthedRequest({
         dispatch,
@@ -413,9 +346,6 @@ const AdminPostPaper = () => {
       setInsertPageId("");
       setInsertAtPage("2");
       setCustomFields([]);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
     } catch (error) {
       setSubmitState("error");
       setFeedback(
@@ -788,73 +718,7 @@ const AdminPostPaper = () => {
                   Drag and drop a PDF or choose it manually.
                 </Typography>
 
-                <Box
-                  onDragOver={(event) => {
-                    event.preventDefault();
-                    setDragActive(true);
-                  }}
-                  onDragLeave={() => setDragActive(false)}
-                  onDrop={handleDrop}
-                  onClick={() => fileInputRef.current?.click()}
-                  sx={{
-                    border: dragActive
-                      ? "2px solid #0f172a"
-                      : "2px dashed rgba(148,163,184,0.45)",
-                    borderRadius: 0,
-                    bgcolor: dragActive ? "#f8fafc" : "#fbfdff",
-                    p: 4,
-                    textAlign: "center",
-                    cursor: "pointer",
-                    transition: "all 160ms ease",
-                  }}
-                >
-                  <CloudUploadRoundedIcon
-                    sx={{ fontSize: 40, color: "#334155", mb: 1.5 }}
-                  />
-                  <Typography sx={{ fontWeight: 600, color: "#0f172a" }}>
-                    Drop PDF here
-                  </Typography>
-                  <Typography variant="body2" sx={{ mt: 1, color: "#64748b" }}>
-                    or click to browse from your computer
-                  </Typography>
-                  <input
-                    ref={fileInputRef}
-                    hidden
-                    type="file"
-                    accept="application/pdf"
-                    onChange={(event) =>
-                      handleFileSelection(event.target.files?.[0] || null)
-                    }
-                  />
-                </Box>
-
-                {file && (
-                  <Stack
-                    direction="row"
-                    spacing={1.5}
-                    alignItems="center"
-                    sx={{
-                      mt: 2.5,
-                      p: 2,
-                      borderRadius: 0,
-                      bgcolor: "#f8fafc",
-                      border: "1px solid rgba(148,163,184,0.18)",
-                    }}
-                  >
-                    <InsertDriveFileRoundedIcon sx={{ color: "#334155" }} />
-                    <Box sx={{ minWidth: 0 }}>
-                      <Typography
-                        sx={{ fontWeight: 600, color: "#0f172a" }}
-                        noWrap
-                      >
-                        {file.name}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: "#64748b" }}>
-                        {(file.size / 1024 / 1024).toFixed(2)} MB
-                      </Typography>
-                    </Box>
-                  </Stack>
-                )}
+                <PdfFileDropzone file={file} onFileSelect={handleFileSelection} />
               </Paper>
 
               <Paper
@@ -874,7 +738,7 @@ const AdminPostPaper = () => {
                 </Typography>
                 <Stack spacing={1.25} sx={{ mt: 2.5 }}>
                   <Typography variant="body2" sx={{ color: "#64748b" }}>
-                    <strong>Folder:</strong> {buildFolderPath(form)}
+                    <strong>Folder:</strong> {buildPaperFolderPath(form)}
                   </Typography>
                   <Typography variant="body2" sx={{ color: "#64748b" }}>
                     <strong>Description:</strong> {descriptionPreview || "Not set"}

@@ -21,6 +21,7 @@ const AdminAccount = lazy(() => import("./pages/admin/AdminAccount"));
 const AdminSecurity = lazy(() => import("./pages/admin/AdminSecurity"));
 const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
 const AdminPostPaper = lazy(() => import("./pages/admin/AdminPostPaper"));
+const AdminAnalyzePaper = lazy(() => import("./pages/admin/AdminAnalyzePaper"));
 const AdminUserCreate = lazy(() => import("./pages/admin/AdminUserCreate"));
 const AdminUserDetail = lazy(() => import("./pages/admin/AdminUserDetail"));
 const AdminDocumentStats = lazy(() => import("./pages/admin/AdminDocumentStats"));
@@ -105,6 +106,14 @@ const App = () => (
                   element={
                     <Suspense fallback={<RouteLoader />}>
                       <AdminPostPaper />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="papers/analyze"
+                  element={
+                    <Suspense fallback={<RouteLoader />}>
+                      <AdminAnalyzePaper />
                     </Suspense>
                   }
                 />

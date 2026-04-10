@@ -22,6 +22,7 @@ import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
 import UploadFileRoundedIcon from "@mui/icons-material/UploadFileRounded";
 import InsightsRoundedIcon from "@mui/icons-material/InsightsRounded";
+import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
@@ -48,6 +49,11 @@ const navItems = [
     label: "Post paper",
     to: "/admin/papers/new",
     icon: <UploadFileRoundedIcon fontSize="small" />,
+  },
+  {
+    label: "Analyze paper",
+    to: "/admin/papers/analyze",
+    icon: <AutoAwesomeRoundedIcon fontSize="small" />,
   },
   {
     label: "Document activity",
