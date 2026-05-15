@@ -1,0 +1,198 @@
+import {
+  SupportConversation,
+  SupportLearnerContext,
+  SupportMessage,
+} from "@/features/support/types/support";
+
+export const supportConversations: SupportConversation[] = [
+  {
+    id: "conv-1001",
+    waId: "27646848143",
+    learnerName: "Andile Masela",
+    phoneNumber: "27646848143",
+    channel: "whatsapp",
+    grade: "12",
+    schoolName: "Example High",
+    province: "Northern Cape",
+    status: "open",
+    assignee: { id: "agent-1", name: "Mosa Support" },
+    labels: ["document-help", "mathematics"],
+    unreadCount: 3,
+    lastMessagePreview: "I need the Mind the Gap IsiXhosa study guide.",
+    lastActivityAt: "2 min ago",
+  },
+  {
+    id: "conv-1002",
+    waId: "27725540603",
+    learnerName: "Lerato Nkosi",
+    phoneNumber: "27725540603",
+    channel: "live_chat",
+    grade: "11",
+    schoolName: "Central Secondary",
+    province: "Gauteng",
+    status: "pending",
+    assignee: null,
+    labels: ["registration", "consent"],
+    unreadCount: 0,
+    lastMessagePreview: "My school name is not showing in the list.",
+    lastActivityAt: "18 min ago",
+  },
+  {
+    id: "conv-1003",
+    waId: "27811234567",
+    learnerName: "Sipho Dlamini",
+    phoneNumber: "27811234567",
+    channel: "email",
+    grade: "12",
+    schoolName: "Thuthuka Secondary",
+    province: "KwaZulu-Natal",
+    status: "open",
+    assignee: { id: "agent-2", name: "Andile" },
+    labels: ["failed-search"],
+    unreadCount: 1,
+    lastMessagePreview: "The bot cannot find Agricultural Sciences P2.",
+    lastActivityAt: "34 min ago",
+  },
+];
+
+export const supportMessages: Record<string, SupportMessage[]> = {
+  "conv-1001": [
+    {
+      id: "msg-1",
+      conversationId: "conv-1001",
+      direction: "incoming",
+      senderName: "Andile Masela",
+      body: "Hi, I am looking for Mind the Gap.",
+      createdAt: "10:12",
+    },
+    {
+      id: "msg-2",
+      conversationId: "conv-1001",
+      direction: "outgoing",
+      senderName: "Mosa Bot",
+      body: "Mind the Gap study guides are useful resources. Which subject do you need?",
+      status: "read",
+      createdAt: "10:12",
+    },
+    {
+      id: "msg-3",
+      conversationId: "conv-1001",
+      direction: "incoming",
+      senderName: "Andile Masela",
+      body: "IsiXhosa Grade 12 please.",
+      createdAt: "10:14",
+    },
+    {
+      id: "msg-4",
+      conversationId: "conv-1001",
+      direction: "internal",
+      senderName: "System note",
+      body: "Recent upload detected: Mind the Gap IsiXhosa study guide. Check if retrieval indexed it correctly.",
+      createdAt: "10:15",
+    },
+  ],
+  "conv-1002": [
+    {
+      id: "msg-5",
+      conversationId: "conv-1002",
+      direction: "incoming",
+      senderName: "Lerato Nkosi",
+      body: "My school name is not showing in the list.",
+      createdAt: "09:48",
+    },
+  ],
+  "conv-1003": [
+    {
+      id: "msg-6",
+      conversationId: "conv-1003",
+      direction: "incoming",
+      senderName: "Sipho Dlamini",
+      body: "The bot cannot find Agricultural Sciences P2 May June 2025.",
+      createdAt: "09:32",
+    },
+    {
+      id: "msg-7",
+      conversationId: "conv-1003",
+      direction: "outgoing",
+      senderName: "Mosa Bot",
+      body: "I could not find an exact document match. A support agent can review this request.",
+      status: "delivered",
+      createdAt: "09:33",
+    },
+  ],
+};
+
+export const supportLearnerContexts: Record<string, SupportLearnerContext> = {
+  "conv-1001": {
+    waId: "27646848143",
+    firstName: "Andile",
+    lastName: "Masela",
+    grade: "12",
+    schoolName: "Example High",
+    province: "Northern Cape",
+    city: "Kimberley",
+    acceptedTerms: true,
+    acceptedPrivacyPolicy: true,
+    recentRequests: [
+      {
+        queryText: "mind the gap isixhosa",
+        lastRequest: "Today",
+        requestCount: 4,
+      },
+      {
+        queryText: "grade 12 xhosa study guide",
+        lastRequest: "Yesterday",
+        requestCount: 2,
+      },
+    ],
+    recentDownloads: [
+      {
+        documentName: "Mathematics P1 November 2023",
+        lastDownload: "3 days ago",
+      },
+    ],
+  },
+  "conv-1002": {
+    waId: "27725540603",
+    firstName: "Lerato",
+    lastName: "Nkosi",
+    grade: "11",
+    schoolName: "Central Secondary",
+    province: "Gauteng",
+    city: "Pretoria",
+    acceptedTerms: true,
+    acceptedPrivacyPolicy: false,
+    recentRequests: [
+      {
+        queryText: "change school",
+        lastRequest: "Today",
+        requestCount: 1,
+      },
+    ],
+    recentDownloads: [],
+  },
+  "conv-1003": {
+    waId: "27811234567",
+    firstName: "Sipho",
+    lastName: "Dlamini",
+    grade: "12",
+    schoolName: "Thuthuka Secondary",
+    province: "KwaZulu-Natal",
+    city: "Durban",
+    acceptedTerms: true,
+    acceptedPrivacyPolicy: true,
+    recentRequests: [
+      {
+        queryText: "Agricultural Sciences P2 May June 2025",
+        lastRequest: "Today",
+        requestCount: 3,
+      },
+    ],
+    recentDownloads: [
+      {
+        documentName: "Agricultural Sciences P1 November 2024",
+        lastDownload: "1 week ago",
+      },
+    ],
+  },
+};
